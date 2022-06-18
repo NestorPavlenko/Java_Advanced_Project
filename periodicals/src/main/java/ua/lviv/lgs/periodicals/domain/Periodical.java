@@ -1,11 +1,21 @@
 package ua.lviv.lgs.periodicals.domain;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Table
 public class Periodical {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @Column
     private String name;
+    @Column
     private String description;
+    @Column
     private Double price;
 
     public Periodical() {

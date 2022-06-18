@@ -1,24 +1,37 @@
 package ua.lviv.lgs.periodicals.domain;
 
+import jakarta.persistence.*;
+
 import java.sql.Date;
 import java.util.Objects;
 
+@Entity
+@Table
 public class Bucket {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private Integer userId;
-    private Integer productId;
+    @ManyToOne
+    @JoinColumn
+    private User user;
+
+    @ManyToOne
+    @JoinColumn
+    private Periodical periodical;
+
+    @Column
     private Date purchaseDate;
 
-    public Bucket(Integer id, Integer userId, Integer productId, Date purchaseDate) {
+    public Bucket(Integer id, User user, Periodical periodical, Date purchaseDate) {
         this.id = id;
-        this.userId = userId;
-        this.productId = productId;
+        this.user = user;
+        this.periodical = periodical;
         this.purchaseDate = purchaseDate;
     }
 
-    public Bucket(Integer userId, Integer productId, Date purchaseDate) {
-        this.userId = userId;
-        this.productId = productId;
+    public Bucket(User user, Periodical periodical, Date purchaseDate) {
+        this.user = user;
+        this.periodical = periodical;
         this.purchaseDate = purchaseDate;
     }
 
@@ -33,20 +46,20 @@ public class Bucket {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Periodical getPeriodical() {
+        return periodical;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setPeriodical(Periodical periodical) {
+        this.periodical = periodical;
     }
 
     public Date getPurchaseDate() {
@@ -62,20 +75,20 @@ public class Bucket {
         if (this == o) return true;
         if (!(o instanceof Bucket)) return false;
         Bucket bucket = (Bucket) o;
-        return Objects.equals(id, bucket.id) && Objects.equals(userId, bucket.userId) && Objects.equals(productId, bucket.productId) && Objects.equals(purchaseDate, bucket.purchaseDate);
+        return Objects.equals(id, bucket.id) && Objects.equals(user, bucket.user) && Objects.equals(periodical, bucket.periodical) && Objects.equals(purchaseDate, bucket.purchaseDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, productId, purchaseDate);
+        return Objects.hash(id, user, periodical, purchaseDate);
     }
 
     @Override
     public String toString() {
         return "Bucket{" +
                 "id=" + id +
-                ", userId=" + userId +
-                ", productId=" + productId +
+                ", user=" + user +
+                ", periodical=" + periodical +
                 ", purchaseDate=" + purchaseDate +
                 '}';
     }
