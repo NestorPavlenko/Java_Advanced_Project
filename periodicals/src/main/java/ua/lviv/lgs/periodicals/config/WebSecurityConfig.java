@@ -32,7 +32,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/home").access("hasRole('ROLE_USER')").anyRequest().permitAll().and()
+        http.authorizeRequests()
+                .antMatchers("/home").access("hasRole('ROLE_USER')")
+                .antMatchers("/create-periodical").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+                .anyRequest().permitAll().and()
                 .formLogin().loginPage("/login").loginProcessingUrl("/j_spring_security_check")
                 .usernameParameter("j_username").passwordParameter("j_password").and().logout()
                 .logoutSuccessUrl("/login?logout").and().exceptionHandling().accessDeniedPage("/403").and().csrf();
