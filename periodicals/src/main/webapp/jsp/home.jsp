@@ -61,13 +61,14 @@
                         <p>${currentPeriodical.description}</p>
                         <p>${currentPeriodical.price}</p>
                     </div>
-                    <button class="w3-button w3-block w3-dark-grey">+ add to bucket</button>
+                    <form action="${contextPath }/bucket" method="POST">
+                        <input type="hidden" value="${currentPeriodical}" class="form-control" name="periodial">
+                        <input type="submit" class="w3-button w3-block w3-dark-grey" value="+ add to bucket">
+                    </form>
                 </div>
 
             </div>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="${contextPath}/resources/js/bootstrap.min.js"></script>
 </body>
 </html>

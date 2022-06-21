@@ -2,7 +2,7 @@ package ua.lviv.lgs.periodicals.domain;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -33,6 +33,10 @@ public class Bucket {
         this.user = user;
         this.periodical = periodical;
         this.purchaseDate = purchaseDate;
+    }
+
+    public Bucket(Integer id) {
+        this.id = id;
     }
 
     public Bucket() {
