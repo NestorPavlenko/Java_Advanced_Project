@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -15,26 +15,68 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+    <title>Login with your account</title>
+    <link type="text/css" href="login.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var selItem = localStorage.getItem("locales");
+            $('#locales').val(selItem ? selItem : 'en');
+            $('#locales').change(function () {
+                var selectedOption = $('#locales').val();
+                if(selectedOption) {
+                    window.location.replace('?lang=' + selectedOption);
+                    localStorage.setItem("locales", selectedOption);
+                }
+            });
+        });
+    </script>
 </head>
+
 <body>
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
 
-<div class="container">
-    <form method="POST" action="${contextPath}/login" class="form-signin">
-        <h2 class="form-heading">Log in</h2>
-
-        <div class="form-group ${error != null ? 'has-error' : ''}">
-            <span>${message}</span>
-            <input name="email" type="text" class="form-control" placeholder="Email" autofocus="true"/>
-            <input name="password" type="password" class="form-control" placeholder="Password"/>
-            <span>${error}</span>
-            <input type="hidden" name="${_csrf.parameterName}" value="${_scrf.token}"/>
-
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
-            <h4 class="text-center"><a href="${contextPath}/registration">Create an account</a> </h4>
+        <!-- Icon -->
+        <div class="fadeIn first">
+            <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon" />
         </div>
-    </form>
+
+        <form method="POST" action="${contextPath}/login" class="form-signin">
+            <h2 class="form-heading"><spring:message code="login.title" /></h2>
+
+            <div class="form-group ${error != null ? 'has-error' : ''}">
+                <span>${message}</span>
+                <input name="email" type="text" placeholder="<spring:message code='login.email' />" class="fadeIn second" autofocus="true"/>
+                <input name="password" type="password" placeholder="<spring:message code='login.password' />" class="fadeIn third"/>
+                <span>${error}</span>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_scrf.token}"/>
+
+                <input class="fadeIn fourth" type="submit" value="<spring:message code='login.signin' />"/>
+            </div>
+        </form>
+
+        <div>
+            <fieldset>
+                <label><spring:message code="login.choose_lang" /></label>
+                <select id="locales">
+                    <option value="en"><spring:message code='login.english'/></option>
+                    <option value="ua"><spring:message code='login.ukrainian'/></option>
+                </select>
+            </fieldset>
+        </div>
+
+        <!-- Remind Passowrd -->
+        <div id="formFooter">
+            <a class="underlineHover" href="${contextPath}/registration"><spring:message code='login.create_account'/></a>
+        </div>
+
+    </div>
 </div>
+
 </body>
 </html>
