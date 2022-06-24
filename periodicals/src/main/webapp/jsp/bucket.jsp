@@ -23,7 +23,6 @@
 
     <!-- Page Content -->
     <div style="margin-left:10%">
-
         <div class="w3-container w3-teal">
             <h1>Create new Periodical</h1>
         </div>
@@ -33,40 +32,40 @@
                     <input type="hidden" name="${_scrf.parameterName}" value="${_scrf.token}"/>
                 </form>
 
-                <h2>Welcome ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Logout</a></h2>
+                <h2>Welcome ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Logout</a>
+                </h2>
             </c:if>
 
-            </form>
-            <form:form method="POST" action="${contextPath}/addPeriodical" enctype="multipart/form-data">
-                <table>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Image</th>
+                    <th>Purchase Date</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="bucket" items="$(bucketItems)">
                     <tr>
-                        <td>Name</td>
-                        <td><input type="text" name="name" /></td>
+                        <td>$(bucket.id)</td>
+                        <td>$(bucket.periodical.name)</td>
+                        <td>$(bucket.periodical.description)</td>
+                        <td>$(bucket.periodical.price)</td>
+                        <td><img src="data:image/jpg;base64,${bucket.periodical.encodedImage}" alt="image" style="width: 10%"></td>
+                        <td>$(bucket.purchaseDate)</td>
+                        <td><a href="bucket?id= ${bucket.id}">delete</a></td>
                     </tr>
-                    <tr>
-                        <td>Description</td>
-                        <td><input type="text" name="description" /></td>
-                    </tr>
-                    <tr>
-                        <td>Price</td>
-                        <td><input type="number" name="price" /></td>
-                    </tr>
-                    <tr>
-                        <td>Select an image to upload</td>
-                        <td><input type="file" name="file" /></td>
-                    </tr>
-                    <tr>
-                        <td><input type="submit" value="Submit" /></td>
-                    </tr>
-                </table>
-                <input type="hidden" name="${_csrf.parameterName}" value="${_scrf.token}" />
-            </form:form>
+                </c:forEach>
+                </tbody>
+            </table>
 
+            </form>
         </div>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
-
 </body>
 </html>
