@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
 
@@ -16,72 +17,80 @@
     <meta name="author" content="">
 
 
-    <title>Periodicalds</title>
+    <title>Periodicals</title>
+    <script src="code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 
-    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-<%--    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>--%>
-<%--    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>--%>
+    <link rel="stylesheet" href="https://w3schools.com/w3css/4/w3.css">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
 
-        <!-- Sidebar -->
-        <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:10%">
-            <h3 class="w3-bar-item">Menu</h3>
-            <security:authorize access="hasRole('ROLE_ADMIN')">
-            <a href="/create-periodical" class="w3-bar-item w3-button">Create periodical</a>
-            </security:authorize>
-            <a href="/home" class="w3-bar-item w3-button">Home</a>
-            <security:authorize access="hasRole('ROLE_USER')">
-            <a href="/buckets" class="w3-bar-item w3-button">Bucket</a>
-            </security:authorize>
-        </div>
+<div class="container-fluid">
+    <div class="w3-sidebar" style="width: 10%">
 
-        <!-- Page Content -->
-        <div style="margin-left:10%">
-
-            <div class="w3-container w3-teal">
-                <h1>Periodicals</h1>
+        <div class="list-group" style="margin-top: 40px">
+            <div class="list-group-item-active">
+                <div>
+                    <h3>Periodicals</h3>
+                </div>
+                <div>${pageContext.request.userPrincipal.name}</div>
             </div>
-            <div class="w3-container">
-                <c:if test="${pageContext.request.userPrincipal.name != null}">
-                    <form id="logoutForm" method="POST" action="${contextPath}/logout">
-                        <input type="hidden" name="${_scrf.parameterName}" value="${_scrf.token}"/>
-                    </form>
 
-                    <h2>Welcome ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Logout</a></h2>
-                </c:if>
-
-                <c:if test="${not empty periodicals}">
-                    <c:forEach items="${periodicals}" var="currentPeriodical">
-
-                <div class="w3-card-4" style="width:20%; margin: 2%">
-                    <img src="data:image/jpg;base64, ${currentPeriodical.encodedImage}" alt="Norway" style="width:100%">
-                    <div class="w3-container w3-center">
-                        <h3>${currentPeriodical.name}</h3>
-                        <p>${currentPeriodical.description}</p>
-                        <p>${currentPeriodical.price}</p>
-                    </div>
-
-                    <security:authorize access="hasRole('ROLE_USER')">
-
-                    <form action="${contextPath }/bucket" method="POST">
-                        <input type="hidden" value="${currentPeriodical}" class="form-control" name="periodial">
-                        <input type="submit" class="w3-button w3-block w3-dark-grey" value="+ add to bucket">
-                    </form>
-
+                    <a href="/home" class="list-group-item"><i class="fa fa-comment-o"></i> Home</a>
+                    <security:authorize access="hasRole('ROLE_ADMIN')">
+                        <a href="/create-periodical" class="list-group-item"><i class="fa fa-search"></i> Create periodical</a>
                     </security:authorize>
 
-                </div>
+                    <security:authorize access="hasRole('ROLE_USER')">
+                        <a href="/buckets" class="list-group-item"><i class="fa fa-user"></i> Bucket</a>
+                    </security:authorize>
 
-                        ${lists}
-                    </c:forEach>
-                </c:if>
 
+            <c:if test="${pageContext.request.userPrincipal.name != null}">
+            <form id="logoutForm" method="POST" action="${contextPath}/logout">
+                <input type="hidden" name="${_scrf.parameterName}" value="${_scrf.token}"/>
+            </form>
+
+            <a class="list-group-item"
+               onclick="document.forms['logoutForm'].submit()"
+               style="cursor: pointer"><i class="fa fa-search"></i> Logout
+            </a>
+            </c:if>
             </div>
         </div>
-    </div>
+            <!-- Page Content -->
+            <div style="margin-left:10%">
+
+                <div class="w3-container">
+
+                    <c:if test="${not empty periodicals}">
+                        <c:forEach items="${periodicals}" var="currentPeriodical">
+
+                            <div class="w3-card-4" style="width:20%; margin: 2%">
+                                <img src="data:image/jpg;base64, ${currentPeriodical.encodedImage}" alt="Norway" style="width:100%">
+                                <div class="w3-container w3-center">
+                                    <h3>${currentPeriodical.name}</h3>
+                                    <p>${currentPeriodical.description}</p>
+                                    <p>${currentPeriodical.price}</p>
+                                </div>
+
+                                <security:authorize access="hasRole('ROLE_USER')">
+
+                                    <form:form action="${contextPath }/bucket" method="POST">
+                                        <input type="hidden" value="${currentPeriodical}" class="form-control" name="periodialId">
+                                        <input type="submit" class="w3-button w3-block w3-dark-grey" value="+ add to bucket">
+                                    </form:form>
+
+                                </security:authorize>
+
+                            </div>
+                        </c:forEach>
+                    </c:if>
+
+                </div>
+            </div>
+        </div>
 </body>
 </html>
