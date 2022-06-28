@@ -1,15 +1,15 @@
 package ua.lviv.lgs.periodicals.domain;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
     private String email;
     private String firstName;
     private String lastName;

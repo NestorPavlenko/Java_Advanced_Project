@@ -9,8 +9,6 @@ import ua.lviv.lgs.periodicals.dao.UserRepository;
 import ua.lviv.lgs.periodicals.dao.UserRolesRepository;
 import ua.lviv.lgs.periodicals.domain.User;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,9 +25,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         Optional<User> userOptional = userRepository.findByEmail(email);
+
         if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            return new CustomUserDetails(user, Collections.singletonList(user.getRole().toString()));
+//            User user = userOptional.get();
+//            return new CustomUserDetails(user, Collections.singletonList(user.getRole().toString()));
+            List<String> userRoles = userRolesRepository.findRolesByUserName(email);
+            return new CustomUserDetails(userOptional.get(), userRoles);
         }
 
         throw new UsernameNotFoundException("No user present with useremail" + email);

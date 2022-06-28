@@ -1,12 +1,12 @@
 package ua.lviv.lgs.periodicals.domain;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table
+@Table(name = "bucket")
 public class Bucket {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

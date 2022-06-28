@@ -16,11 +16,13 @@ import ua.lviv.lgs.periodicals.service.BucketService;
 import ua.lviv.lgs.periodicals.service.PeriodicalsService;
 import ua.lviv.lgs.periodicals.service.UserService;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.testng.AssertJUnit.assertTrue;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -31,7 +33,7 @@ public class ApplicationTests {
 
     @Autowired
     private PeriodicalsService periodicalsService;
-    
+
     @Autowired
     private BucketService bucketService;
 

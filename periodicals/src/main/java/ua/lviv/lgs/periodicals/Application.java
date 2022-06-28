@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@ComponentScan({"ua.lviv.lgs.periodicals"})
 public class Application {
 
 	public static void main(String[] args) {
@@ -12,3 +13,5 @@ public class Application {
 	}
 
 }
+
+//class ua.lviv.lgs.periodicals.domain.User
